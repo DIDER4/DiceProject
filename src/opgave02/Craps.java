@@ -12,7 +12,7 @@ public class Craps {
         printRules();
         System.out.println();
 
-        playDice();
+        playCraps();
 
         System.out.println();
         System.out.println("Tak for at spille, Craps.");
@@ -31,12 +31,16 @@ public class Craps {
         System.out.println("=====================================================");
     }
 
-    public static void playDice() {
+    public static void playCraps() {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Klar til at prøve lykken med de 2 terninger? ('ja/nej') ");
         String answer = scanner.nextLine();
         while (!answer.equals("nej")) {
             int[] faces = rollDice();
+            if (faces[0] + faces[1] == 7 || faces[0] + faces[1] == 11){
+                System.out.println("Du slog" + (faces[0]+faces[1]) + "og taber derfor");
+                printStatistics();
+            }
             System.out.println("Du rullede: " + faces[0]);
             System.out.println("Du rullede: " + faces[1]);
             sum += faces[0] + faces[1];
