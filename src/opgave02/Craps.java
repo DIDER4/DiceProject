@@ -37,29 +37,34 @@ public class Craps {
         String answer = scanner.nextLine();
 
         int startSlag = rullterning();
-        System.out.println("Du rullede " + startSlag);
+        updateStatistics();
+        System.out.println("\nDu rullede " + startSlag);
+
 
         if (startSlag == 7 || startSlag == 11){
-            System.out.println("Du slog " + (startSlag) + " og vinder derfor på første slag!");
+            System.out.println("\nDu slog " + (startSlag) + " og vinder derfor på første slag!");
             printStatistics();
             return;
         }
         if (startSlag == 2 || startSlag == 3 || startSlag == 12){
-            System.out.println("Du har slået " + startSlag + " og taber derfor på første slag!");
+            System.out.println("\nDu har slået " + startSlag + " og taber derfor på første slag!");
             printStatistics();
             return;
         }
 
         int point = startSlag;
         System.out.println("Du har nu " + point + " point");
+        System.out.println("-------------------------");
+        System.out.println("Spillet fortsætter du dine slag er: \n");
         boolean pointResultat = rollForPoint(point);
 
         if (pointResultat) {
-            System.out.println("Tillykke! Du har slået det samme point og har derfor vundet!");
+            System.out.println("\nTillykke! Du har slået det samme point som dit startslag og har derfor vundet!");
         }
         else {
-            System.out.println("Du har slået 7 før dit point og har derfor tabt");
+            System.out.println("\nDu har slået 7 før dit point og har derfor tabt");
         }
+        printStatistics();
         scanner.close();
 
     }
@@ -69,6 +74,7 @@ public class Craps {
         do {
             rulle = rullterning();
             System.out.println("Du rullede: "+ rulle);
+            updateStatistics();
         }while (rulle != 7 && rulle != point);
         return rulle == point;
     }
@@ -87,7 +93,7 @@ public class Craps {
     private static void printStatistics() {
         System.out.println("\nResults:");
         System.out.println("-------");
-        System.out.printf("%17s %4d\n", "Antal rul:", rollCount);
+        System.out.printf("%17s %4d\n", "Antal rul: ", rollCount);
 
     }
 }
