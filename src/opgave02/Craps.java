@@ -35,34 +35,49 @@ public class Craps {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Klar til at prøve lykken med de 2 terninger? ('ja/nej') ");
         String answer = scanner.nextLine();
-        while (!answer.equals("nej")) {
-            int[] faces = rollDice();
-            if (faces[0] + faces[1] == 7 || faces[0] + faces[1] == 11){
-                System.out.println("Du slog" + (faces[0]+faces[1]) + "og taber derfor");
-                printStatistics();
-            }
-            System.out.println("Du rullede: " + faces[0]);
-            System.out.println("Du rullede: " + faces[1]);
-            sum += faces[0] + faces[1];
 
-            updateStatistics();
+        int startSlag = rullterning();
+        System.out.println("Du rullede " + startSlag);
 
-            System.out.print("Rul en terning? ('ja/nej') ");
-            answer = scanner.nextLine();
+        if (startSlag == 7 || startSlag == 11){
+            System.out.println("Du slog " + (startSlag) + " og vinder derfor på første slag!");
+            printStatistics();
+            return;
         }
-        printStatistics();
+        if (startSlag == 2 || startSlag == 3 || startSlag == 12){
+            System.out.println("Du har slået " + startSlag + " og taber derfor på første slag!");
+            printStatistics();
+            return;
+        }
+
+        int point = startSlag;
+        System.out.println("Du har nu " + point + " point");
+        boolean pointResultat = rollForPoint(point);
+
+        if (pointResultat) {
+            System.out.println("Tillykke! Du har slået det samme point og har derfor vundet!");
+        }
+        else {
+            System.out.println("Du har slået 7 før dit point og har derfor tabt");
+        }
         scanner.close();
+
     }
 
-    private static int[] rollDice() {
-        int[] dices = new int[2];
-        dices[0] = (int) (Math.random() * 6 + 1);
-        dices[1] = (int) (Math.random() * 6 + 1);
-        return dices;
+    private static boolean rollForPoint(int point){
+        int rulle;
+        do {
+            rulle = rullterning();
+            System.out.println("Du rullede: "+ rulle);
+        }while (rulle != 7 && rulle != point);
+        return rulle == point;
     }
 
-    private static int rollDie() {
-        return (int) (Math.random() * 6 + 1);
+
+    private static int rullterning() {
+        int terning1 = (int) (Math.random() * 6 + 1);
+        int terning2 = (int) (Math.random() * 6 + 1);
+        return terning1 + terning2;
     }
 
     private static void updateStatistics() {
