@@ -32,24 +32,31 @@ public class Pigs {
         Scanner scanner = new Scanner(System.in);
         System.out.print("Klar til at starte spillet? ('ja/nej') ");
         String answer = scanner.nextLine();
-        int rulTerning = rollDie();
+
+        if (answer.equals("nej")) {
+            System.out.println("Du vil ikke spille, spillet er slut");
+        }
+
         int spiller1Point = 0;
         int spiller2Point = 0;
         int nuværendeSpiller = 1;
         boolean spilVundet = false;
 
-        while (spilVundet != true) {
+        while (!answer.equals("nej") && spilVundet != true) {
             int rundePoint = 0;
             boolean fortsætSpil = true;
 
-            System.out.println("Det er nu " + "spiller " + nuværendeSpiller + "s tur");
-            while (fortsætSpil == true) {
-                System.out.println("Klar til at prøve lykken? ('ja/nej') : ");
-                String svar = scanner.nextLine();
+            System.out.println("--------------------------------------------------------");
+            System.out.println("\nDet er nu " + "spiller " + nuværendeSpiller + "s tur");
 
-                if (svar == "nej") {
-                    break;
-                }
+            System.out.println("Klar til at prøve lykken? ('ja/nej') : ");
+            String svar = scanner.nextLine();
+            if (svar.equals("nej")) {
+                break;
+            }
+
+            while (fortsætSpil == true) {
+                int rulTerning = rollDie();
 
                 System.out.println("Du rullede " + rulTerning);
 
@@ -63,43 +70,56 @@ public class Pigs {
                     System.out.println("Tør du tage et kast mere? ('ja/nej') ");
                     svar = scanner.nextLine();
 
-                    if (svar == "nej"){
+                    if (svar.equals("nej")) {
                         fortsætSpil = false;
                     }
                 }
             }
 
-            if (nuværendeSpiller == 1){
+
+            if (nuværendeSpiller == 1) {
                 spiller1Point += rundePoint;
                 System.out.println("Spiller 1's nuværende point er: " + spiller1Point);
-                if (spiller1Point >= 100){
+                if (spiller1Point >= 100) {
                     spilVundet = true;
                     System.out.println("Spiller 1 vandt!");
                 } else {
                     nuværendeSpiller = 2;
                 }
+
+            } else if (nuværendeSpiller == 2) {
+                spiller2Point += rundePoint;
+                System.out.println("Spiller 2's nuværende point er: " + spiller2Point);
+                if (spiller2Point >= 100) {
+                    spilVundet = true;
+                    System.out.println("Spiller 2 vandt!");
+                } else {
+                    nuværendeSpiller = 1;
+                }
             }
             updateStatistics();
         }
+
+
         printStatistics();
         scanner.close();
     }
 
-        private static int rollDie () {
-            return (int) (Math.random() * 6 + 1);
-        }
+    private static int rollDie() {
+        return (int) (Math.random() * 6 + 1);
+    }
 
 
-        private static void updateStatistics () {
-            rollCount++;
-        }
+    private static void updateStatistics() {
+        rollCount++;
+    }
 
-        private static void printStatistics () {
-            System.out.println("\nResults:");
-            System.out.println("-------");
-            System.out.printf("%17s %4d\n", "Antal rul:", rollCount);
-
-        }
+    private static void printStatistics() {
+        System.out.println("\nResults:");
+        System.out.println("-------");
+        System.out.printf("%17s %4d\n", "Antal rul:", rollCount);
 
     }
+
+}
 
